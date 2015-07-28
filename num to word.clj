@@ -44,26 +44,38 @@
  
    (let [ones-part (mod x 10)
          tens-part (- x ones-part)]
-     (str (tens-to-word tens-part) "-"
+     (str (tens-to-word tens-part) " "
           (digit-to-word ones-part)))
 
 
    (<= x 999)
    (let [small-part (mod x 100)
-         hundreds-digit (-> x (- small-part) (/ 100))]
-		
+         hundreds-digit (-> x  (- small-part) (/ 100))]
+     (str (digit-to-word hundreds-digit) " Hundred  " 
+			(cond (not= small-part 0) (str "and ")) 
+				(small-number-to-words small-part)))
 	
-		(cond
-    	(== small-part 0) 
-     (str (digit-to-word hundreds-digit) " Hundred " (small-number-to-words small-part))
-		:else
-	(str (digit-to-word hundreds-digit) " Hundred And " (small-number-to-words small-part))	
-		)
-		
-		
-	)
-	)
-	)
+   (<= x 99999)
+   (let [small-part (mod x 100)
+         hundreds-digit (-> x (- small-part) (/ 100) (mod 10)) 
+		 ten-thousand-digit (-> x (- small-part) (- (* hundreds-digit 100)) (/ 1000))]
+     (str (small-number-to-words ten-thousand-digit) " Thousand " 
+			(digit-to-word hundreds-digit) " Hundred  " 
+				(cond (not= small-part 0) (str "and ")) 
+					(small-number-to-words small-part)))
+
+	(<= x 9999999)
+    (let [small-part (mod x 100)
+         hundreds-digit (-> x (- small-part) (/ 100) (mod 10))
+		 ten-thousand-digit (-> x (- small-part) (- (* hundreds-digit 100)) (/ 1000) (mod 100))
+		 lakh-digit (-> x (- small-part) (- (* hundreds-digit 100)) (- (* ten-thousand-digit 1000)) (/ 100000))]
+     (str	(small-number-to-words lakh-digit) " Lakh "
+       		(small-number-to-words ten-thousand-digit) " Thousand " 
+				(digit-to-word hundreds-digit) " Hundred  " 
+					(cond (not= small-part 0) (str "and ")) 
+						(small-number-to-words small-part)))
+
+	))
 ( do( println ( small-number-to-words 401) ))
 
 (deftest tester-method
