@@ -51,15 +51,20 @@
    (<= x 999)
    (let [small-part (mod x 100)
          hundreds-digit (-> x (- small-part) (/ 100))]
-     (str (digit-to-word hundreds-digit) " Hundred " (small-number-to-words small-part)))))
-
-
-
-
-
-
-
-( do( println ( small-number-to-words 899) ))
+		
+	
+		(cond
+    	(== small-part 0) 
+     (str (digit-to-word hundreds-digit) " Hundred " (small-number-to-words small-part))
+		:else
+	(str (digit-to-word hundreds-digit) " Hundred And " (small-number-to-words small-part))	
+		)
+		
+		
+	)
+	)
+	)
+( do( println ( small-number-to-words 401) ))
 
 (deftest tester-method
   (is (= "Zero" (small-number-to-words/convert 0)))
