@@ -1,6 +1,3 @@
-(ns number-to-words
-  (:require [clojure.string :refer [join]]))
-
 (def digit-to-word
   {1 "One"
    2 "Two"
@@ -70,22 +67,26 @@
 		 ten-thousand-digit (-> x (- small-part) (- (* hundreds-digit 100)) (/ 1000) (mod 100))
 		 lakh-digit (-> x (- small-part) (- (* hundreds-digit 100)) (- (* ten-thousand-digit 1000)) (/ 100000))]
      (str	(small-number-to-words lakh-digit) " Lakh "
-       		(small-number-to-words ten-thousand-digit) " Thousand " 
-				(digit-to-word hundreds-digit) " Hundred  " 
-					(cond (not= small-part 0) (str "and ")) 
-						(small-number-to-words small-part)))
+       			(small-number-to-words ten-thousand-digit) " Thousand " 
+					(digit-to-word hundreds-digit) " Hundred  " 
+						(cond (not= small-part 0) (str "and ")) 
+							(small-number-to-words small-part)))
+
+	(<= x 999999999)
+    (let [small-part (mod x 100)
+         hundreds-digit (-> x (- small-part) (/ 100) (mod 10))
+		 ten-thousand-digit (-> x (- small-part) (- (* hundreds-digit 100)) (/ 1000) (mod 100))
+		 lakh-digit (-> x (- small-part) (- (* hundreds-digit 100)) (- (* ten-thousand-digit 1000)) (/ 100000) (mod 100))
+		 ten-crore-digit (-> x (- small-part) (- (* hundreds-digit 100)) (- (* ten-thousand-digit 1000)) (- (* lakh-digit 100000)) (/ 10000000))
+
+			]
+     (str	(small-number-to-words ten-crore-digit) " Crore "
+       			(small-number-to-words lakh-digit) " Lakh "
+       				(small-number-to-words ten-thousand-digit) " Thousand " 
+						(digit-to-word hundreds-digit) " Hundred  " 
+							(cond (not= small-part 0) (str "and ")) 
+								(small-number-to-words small-part)))
 
 	))
 
-(deftest tester-method
-  (is (= "Zero" (small-number-to-words 0)))
-  (is (= "One" (small-number-to-words 1)))
-  (is (= "Seven" (small-number-to-words 7)))
-  (is (= "Eleven" (small-number-to-words 11)))
-  (is (= "Ninety" (small-number-to-words 90)))
-  (is (= "Twenty Six" (small-number-to-words 26)))
-  (is (= "Three Hundred Eleven" (small-number-to-words 311)))
-  (is (= "Two Hundred Two" (small-number-to-words 202)))
-  (is (= "Seven Hundred" (small-number-to-words 700)))
-  (is (= "Five Hundred and Ninety Nine" (small-number-to-words 599)))
-)
+(do (println (small-number-to-words 400000)))
