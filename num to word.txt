@@ -51,33 +51,12 @@
    (<= x 999)
    (let [small-part (mod x 100)
          hundreds-digit (-> x (- small-part) (/ 100))]
-     (str (digit-to-word hundreds-digit) " Hundred  " (small-number-to-words small-part)))))
+     (str (digit-to-word hundreds-digit) " Hundred " (small-number-to-words small-part)))))
 
 
 
-(defn- digit-shift
-  [x shift]
-  (-> x (- (mod x shift)) (/ shift) int))
 
-(defn convert
-  [x]
-  (loop [words [] x x]
-    (cond
-     
-     (-> x (>= 1e6))
-     (recur (conj words "One Million")
-            (- x 1e6))
-     
-     (-> x (>= 1e3))
-     (recur (conj words
-                  (str
-                   (-> x (digit-shift 1000) small-number-to-words)
-                   " Thousand"))
-            (mod x 1000))
-     
-     (-> x (> 0))
-     (recur (conj words (small-number-to-words x)) 0)
-     
-     :else (join " " words))))
 
-( do( println(convert 111155)))
+
+
+( do( println ( small-number-to-words 899) ))
