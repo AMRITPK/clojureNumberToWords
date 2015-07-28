@@ -60,3 +60,16 @@
 
 
 ( do( println ( small-number-to-words 899) ))
+
+(deftest tester-method
+  (is (= "Zero" (small-number-to-words/convert 0)))
+  (is (= "One" (small-number-to-words/convert 1)))
+  (is (= "Seven" (small-number-to-words/convert 7)))
+  (is (= "Eleven" (small-number-to-words/convert 11)))
+  (is (= "Ninety" (small-number-to-words/convert 90)))
+  (is (= "Twenty-Six" (small-number-to-words/convert 26)))
+  (is (= "Three Hundred Eleven" (small-number-to-words/convert 311)))
+  (is (= "Two Hundred Two" (small-number-to-words/convert 202)))
+  (is (= "Seven Hundred" (small-number-to-words/convert 700)))
+  (is (= "Five Hundred Ninety-Nine" (small-number-to-words/convert 599)))
+)
